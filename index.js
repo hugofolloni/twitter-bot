@@ -38,7 +38,7 @@ function tweetProgress(){
     
             $('.markdown-body.entry-content.container-lg').each((_idx, el) => {
                 const newReadMe = $(el).text()
-                var postTweet = `Olá, mundo! A atualização de hoje é:\n\n${newReadMe}`;
+                var postTweet = `Olá, mundo! A atualização de hoje é:\n\n${newReadMe}\n\nAcesse o github na bio para mais.`;
                 theBot.post(
             
                     'statuses/update',
