@@ -19,7 +19,7 @@ const theBot = new Twit({
 
 });
 
-var i = 1;
+var i = 3;
 
 function tweetProgress(){
 
@@ -66,4 +66,6 @@ function tweetProgress(){
 }
 
 tweetProgress();
+
+setInterval(tweetProgress, 86400000);
 
