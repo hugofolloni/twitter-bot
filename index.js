@@ -1,4 +1,7 @@
 const Twit = require("twit");
+const axios = require('axios');
+const cheerio = require('cheerio');
+
 
 require("dotenv").config();
 
@@ -16,22 +19,50 @@ const theBot = new Twit({
 
 });
 
+var i = 1;
+
 function tweetProgress(){
 
-    var postTweet = "Hello, World. Ops... Twitter!";
-    theBot.post(
-
-        'statuses/update',
-        {status: postTweet},
-        function(err, data, response){
-            if (err){
-                console.log("ERRO: " + err);
-                return false;
-            }
-
-            console.log("Tweet postado com sucesso!\n");
+    const getReadMe = async () => {
+        if(i < 10){
+            stringDate = "00" + i;
         }
-    )
+        else if (i > 10){
+            stringDate = "0" + i;
+        }
+        try {
+            const { data } = await axios.get(
+                `https://github.com/hugofolloni/100DaysOfCodeChallenge/tree/main/${stringDate}/forTwitter`
+            );
+            const $ = cheerio.load(data);
+    
+            $('.markdown-body.entry-content.container-lg').each((_idx, el) => {
+                const newReadMe = $(el).text()
+                var postTweet = `Olá, mundo! A atualização de hoje é:\n\n${newReadMe}`;
+                theBot.post(
+            
+                    'statuses/update',
+                    {status: postTweet},
+                    function(err, data, response){
+                        if (err){
+                            console.log("ERRO: " + err);
+                            return false;
+                        }
+            
+                        console.log("Tweet postado com sucesso!\n");
+                    }
+                )
+            });
+    
+        } catch (error) {
+            throw error;
+        }
+    
+    };
+
+    getReadMe();
+
+    i++;
 }
 
 tweetProgress();
