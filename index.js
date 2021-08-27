@@ -19,7 +19,7 @@ const theBot = new Twit({
 
 });
 
-var i = 2;
+var i = 3;
 
 function tweetProgress(){
 
